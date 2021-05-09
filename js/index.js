@@ -1,26 +1,27 @@
+import { ctx, canvas } from './canvas'
+import ParticlesFactory from './ParticlesFactory'
 import '../style/style.css'
 
-const canvas = document.getElementById('canvas-1')
+function init() {
+  const particles = new ParticlesFactory({
+    amount: 100,
+    maxPosition: canvas.width,
+    minPosition: canvas.height
+  })
 
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-const ctx = canvas.getContext('2d')
+  for (let ind in particles) {
+    particles[ind].draw(ctx)
+  }
 
-function canvasDraw(x, y) {
-  console.log(ctx)
-
-  ctx.fillStyle = 'red'
-  ctx.strokeStyle = 'green'
-  ctx.lineWidth = '4'
-  ctx.beginPath()
-  ctx.arc(x, y, 40, 0, Math.PI * 5)
-  ctx.fill()
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (let ind in particles) {
+      particles[ind].update()
+      particles[ind].draw()
+    }
+    requestAnimationFrame(animate)
+  }
+  animate()
 }
-canvas.addEventListener('click', function (e) {
-  canvasDraw(e.x, e.y)
-})
-canvas.addEventListener('mousemove', function (e) {
-  canvasDraw(e.x, e.y)
-})
-// window.addEventListener('resize', canvasDraw)
-document.addEventListener('DOMContentLoaded', canvasDraw)
+
+document.addEventListener('DOMContentLoaded', init)
