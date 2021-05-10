@@ -20,10 +20,10 @@ export class Particle {
 
   _updateSize() {
     if (this.transformValue === 'dec') {
-      this.size -= 0.03
+      this.size -= 0.07
     }
     if (this.transformValue === 'inc') {
-      this.size += 0.03
+      this.size += 0.07
     }
   }
 
